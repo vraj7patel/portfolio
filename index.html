@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vraj Rabadiya | Frontend Developer Portfolio</title>
+    <meta name="description" content="Portfolio of Vraj Rabadiya, a Frontend Developer specialized in building responsive, user-friendly, and high-performance web interfaces." />
+    <meta name="keywords" content="Vraj Rabadiya, Frontend Developer, Web Developer, Portfolio, Shopify Liquid, HTML, CSS, JavaScript, MERN Stack, React" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Custom Trailing Cursor -->
+    <div class="custom-cursor" id="customCursorDot"></div>
+    <div class="custom-cursor-outline" id="customCursorOutline"></div>
+
+    <!-- Glowing Background Blobs -->
+    <div class="bg-blobs-container" aria-hidden="true">
+      <div class="bg-blob bg-blob-purple"></div>
+      <div class="bg-blob bg-blob-cyan"></div>
+      <div class="bg-blob bg-blob-pink"></div>
+    </div>
+
+    <!-- Sticky Glassmorphic Header -->
+    <header class="main-header glass-panel">
+      <div class="header-container">
+        <a href="#hero" class="logo" id="navLogo">
+          <span class="logo-accent">&lt;</span>VR<span class="logo-accent"> /&gt;</span>
+        </a>
+        <nav class="desktop-nav" id="desktopNav">
+          <a href="#hero" class="nav-link active" id="linkHero">Home</a>
+          <a href="#about" class="nav-link" id="linkAbout">About</a>
+          <a href="#experience" class="nav-link" id="linkExperience">Experience</a>
+          <a href="#projects" class="nav-link" id="linkProjects">Projects</a>
+          <a href="#skills" class="nav-link" id="linkSkills">Skills</a>
+          <a href="#contact" class="nav-link" id="linkContact">Contact</a>
+        </nav>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer glass-panel" id="mobileNavDrawer">
+      <nav class="mobile-nav">
+        <a href="#hero" class="mobile-nav-link" id="mobLinkHero">Home</a>
+        <a href="#about" class="mobile-nav-link" id="mobLinkAbout">About</a>
+        <a href="#experience" class="mobile-nav-link" id="mobLinkExperience">Experience</a>
+        <a href="#projects" class="mobile-nav-link" id="mobLinkProjects">Projects</a>
+        <a href="#skills" class="mobile-nav-link" id="mobLinkSkills">Skills</a>
+        <a href="#contact" class="mobile-nav-link" id="mobLinkContact">Contact</a>
+      </nav>
+    </div>
+
+    <!-- Main Content Container -->
+    <main id="app">
+      <!-- HERO SECTION -->
+      <section id="hero" class="hero-section">
+        <div class="section-container hero-grid">
+          <div class="hero-content">
+            <div class="badge-glow" id="heroBadge">Frontend Developer</div>
+            <h1 class="hero-title" id="heroTitle">
+              <span class="reveal-line">Hi, I'm</span>
+              <span class="gradient-text reveal-name" id="heroName">Vraj Rabadiya</span>
+            </h1>
+            <p class="hero-tagline" id="heroTagline"></p>
+            <div class="hero-actions">
+              <a href="#projects" class="btn btn-primary magnetic" id="heroBtnProjects">
+                <span>View Projects</span>
+                <i data-lucide="arrow-right"></i>
+              </a>
+              <a href="#contact" class="btn btn-outline magnetic" id="heroBtnContact">
+                <span>Contact Me</span>
+              </a>
+            </div>
+          </div>
+          <div class="hero-visual-wrapper">
+            <div class="hero-visual-glow"></div>
+            <div class="hero-visual-card glass-card" id="heroVisualCard">
+              <img src="" alt="Developer Abstract Graphic" class="hero-visual-img" id="heroVisualImg" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT SECTION -->
+      <section id="about" class="about-section scroll-reveal">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-subtitle">Who I Am</span>
+            <h2 class="section-title">About Me</h2>
+            <div class="header-line"></div>
+          </div>
+          <div class="about-grid">
+            <div class="about-visual-side">
+              <div class="model-3d-wrap">
+                <div class="model-scene">
+                  <!-- Monitor -->
+                  <div class="monitor">
+                    <div class="monitor-screen">
+                      <div class="code-line cl1"></div>
+                      <div class="code-line cl2"></div>
+                      <div class="code-line cl3"></div>
+                      <div class="code-line cl4"></div>
+                      <div class="code-line cl5"></div>
+                      <div class="code-cursor"></div>
+                    </div>
+                    <div class="monitor-base"></div>
+                    <div class="monitor-stand"></div>
+                  </div>
+                  <!-- Developer Figure -->
+                  <div class="dev-figure">
+                    <div class="dev-head">
+                      <div class="dev-face">
+                        <div class="dev-eye dev-eye-l"></div>
+                        <div class="dev-eye dev-eye-r"></div>
+                        <div class="dev-smile"></div>
+                      </div>
+                      <div class="dev-hair"></div>
+                      <div class="dev-headphone"></div>
+                    </div>
+                    <div class="dev-body">
+                      <div class="dev-collar"></div>
+                    </div>
+                    <div class="dev-arm dev-arm-l"></div>
+                    <div class="dev-arm dev-arm-r"></div>
+                  </div>
+                  <!-- Floating Tech Icons -->
+                  <div class="float-icon fi-1"><i data-lucide="code-2"></i></div>
+                  <div class="float-icon fi-2"><i data-lucide="zap"></i></div>
+                  <div class="float-icon fi-3"><i data-lucide="database"></i></div>
+                  <div class="float-icon fi-4"><i data-lucide="smartphone"></i></div>
+                  <!-- Glow -->
+                  <div class="scene-glow"></div>
+                </div>
+              </div>
+              
+              <div class="about-stats-container">
+                <div class="stat-card glass-card hover-glow">
+                  <span class="stat-card-number">1+</span>
+                  <span class="stat-card-label">Internship</span>
+                </div>
+                <div class="stat-card glass-card hover-glow">
+                  <span class="stat-card-number">2+</span>
+                  <span class="stat-card-label">Projects</span>
+                </div>
+                <div class="stat-card glass-card hover-glow">
+                  <span class="stat-card-number">10+</span>
+                  <span class="stat-card-label">Skills</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="about-text-side glass-card" id="aboutTextCard">
+              <h3 class="about-subtitle gradient-text">Frontend Developer</h3>
+              <div class="bio-content" id="bioContainer"></div>
+              <div class="about-skills-quick" id="aboutSkillsQuick">
+                <!-- Skill tags loaded dynamically in JS -->
+              </div>
+              <div class="about-cta-container">
+                <a href="#contact" class="btn btn-primary magnetic">
+                  <span>Let's Talk</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE SECTION -->
+      <section id="experience" class="experience-section scroll-reveal">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-subtitle">My Journey</span>
+            <h2 class="section-title">Experience</h2>
+            <div class="header-line"></div>
+          </div>
+          <div class="timeline-container">
+            <div class="timeline-line">
+              <div class="timeline-progress" id="timelineProgress"></div>
+            </div>
+            <div class="timeline-items" id="timelineItemsContainer">
+              <!-- Loaded Dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS SECTION -->
+      <section id="projects" class="projects-section scroll-reveal">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-subtitle">Recent Works</span>
+            <h2 class="section-title">Projects</h2>
+            <div class="header-line"></div>
+          </div>
+          <div class="projects-grid" id="projectsContainer">
+            <!-- Loaded Dynamically with Tilt and Glow -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS SECTION -->
+      <section id="skills" class="skills-section scroll-reveal">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-subtitle">Abilities & Stack</span>
+            <h2 class="section-title">Skills</h2>
+            <div class="header-line"></div>
+          </div>
+          <div class="skills-categories-grid" id="skillsContainer">
+            <!-- Loaded Dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TERMINAL SECTION -->
+      <section id="terminal" class="terminal-section scroll-reveal">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-subtitle">Developer Console</span>
+            <h2 class="section-title">Interactive Terminal</h2>
+            <div class="header-line"></div>
+          </div>
+          
+          <div class="terminal-wrapper glass-card hover-glow" id="terminalWrapper">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-title">vraj_rabadiya@terminal: ~</div>
+              <div class="terminal-spacer"></div>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+              <div class="terminal-line system-msg">System initialized. Type <span class="cmd-highlight">help</span> to view available commands.</div>
+              <div class="terminal-line welcome-msg">Welcome to Vraj's interactive developer terminal!</div>
+              <div class="terminal-output" id="terminalOutput"></div>
+              <div class="terminal-input-line">
+                <span class="prompt">vraj@portfolio:~$</span>
+                <input type="text" id="terminalInput" autocomplete="off" placeholder="type command here..." />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT SECTION -->
+      <section id="contact" class="contact-section scroll-reveal">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-subtitle">Get In Touch</span>
+            <h2 class="section-title">Contact</h2>
+            <div class="header-line"></div>
+          </div>
+          <div class="contact-grid">
+            <!-- Contact Details Column -->
+            <div class="contact-info-col">
+              <div class="contact-info-card glass-card" id="contactDetailsCard">
+                <h3>Let's Collaborate</h3>
+                <p>Have an exciting project in mind or want to chat about frontend development? Feel free to reach out using the contact details or social profiles below.</p>
+                
+                <div class="contact-methods-list" id="contactMethods">
+                  <!-- Dynamically Rendered Contact Methods -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact Form Column -->
+            <div class="contact-form-col">
+              <form class="contact-form glass-card" id="contactForm">
+                <h3>Send a Message</h3>
+                
+                <div class="input-group">
+                  <input type="text" id="formName" required placeholder=" " />
+                  <label for="formName">Your Name</label>
+                  <div class="input-focus-line"></div>
+                </div>
+
+                <div class="input-group">
+                  <input type="email" id="formEmail" required placeholder=" " />
+                  <label for="formEmail">Your Email</label>
+                  <div class="input-focus-line"></div>
+                </div>
+
+                <div class="input-group">
+                  <textarea id="formMessage" rows="5" required placeholder=" "></textarea>
+                  <label for="formMessage">Your Message</label>
+                  <div class="input-focus-line"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary form-submit-btn magnetic" id="formSubmitBtn">
+                  <span>Send Message</span>
+                  <i data-lucide="send"></i>
+                </button>
+                
+                <div class="form-feedback-message" id="formFeedback"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Welcome Modal Overlay -->
+    <div class="modal-overlay" id="welcomeModal">
+      <div class="modal-card glass-card">
+        <div class="modal-glow"></div>
+        <div class="modal-badge">👋 Welcome</div>
+        <h2 class="modal-title">Hi, I'm <span class="gradient-text">Vraj Rabadiya</span></h2>
+        <p class="modal-desc">Frontend Developer from Surat, India. Explore my work, skills, and interactive developer terminal. Click anywhere or press Enter to begin.</p>
+        <div class="modal-stats">
+          <div class="modal-stat">
+            <span class="stat-number" data-count="2">0</span>
+            <span class="stat-label">Projects</span>
+          </div>
+          <div class="modal-stat">
+            <span class="stat-number" data-count="10">0</span>
+            <span class="stat-label">Skills</span>
+          </div>
+          <div class="modal-stat">
+            <span class="stat-number" data-count="1">0</span>
+            <span class="stat-label">Internship</span>
+          </div>
+        </div>
+        <button class="btn btn-primary modal-enter-btn" id="modalEnterBtn">
+          <span>Enter Portfolio</span>
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-container">
+        <p class="copyright">&copy; <span id="currentYear">2026</span> Vraj Rabadiya. All rights reserved.</p>
+        <div class="footer-links" id="footerSocials">
+          <!-- Dynamically Loaded -->
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
