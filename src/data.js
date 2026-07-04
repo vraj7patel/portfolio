@@ -8,7 +8,7 @@ export const portfolioData = {
     title: "Frontend Developer",
     tagline: "Building responsive, user-friendly, and high-performance web interfaces.",
     heroVisual: heroVisual,
-    cvUrl: "#", // Placeholder for resume link
+    cvUrl: "/vraj_rabadiya_resume.pdf", // Resume PDF served from public/
     bio: [
       "I am a Frontend Developer with hands-on experience in building responsive web applications using HTML, CSS, and JavaScript.",
       "I am currently learning the MERN/MEAN stack to develop scalable full-stack applications and integrate modern AI-powered APIs.",
@@ -61,32 +61,18 @@ export const portfolioData = {
     }
   ],
   skills: [
-    {
-      category: "Core Frontend",
-      items: [
-        { name: "HTML & CSS", percentage: 95 },
-        { name: "JavaScript", percentage: 88 },
-        { name: "Responsive Web Design", percentage: 95 }
-      ]
-    },
-    {
-      category: "Backend & Database",
-      items: [
-        { name: "MongoDB", percentage: 75 },
-        { name: "Shopify Liquid", percentage: 80 }
-      ]
-    },
-    {
-      category: "Tools & Methodologies",
-      items: [
-        { name: "Git & GitHub", percentage: 85 },
-        { name: "Modern Tools (AI APIs)", percentage: 90 },
-        { name: "System Design", percentage: 80 },
-        { name: "Project Leadership", percentage: 85 },
-        { name: "Problem-Solving", percentage: 90 },
-        { name: "Time Management", percentage: 95 }
-      ]
-    }
+    { name: "React.js", icon: "react" },
+    { name: "Next.js", icon: "nextjs" },
+    { name: "Node.js", icon: "nodejs" },
+    { name: "MongoDB", icon: "mongodb" },
+    { name: "Express.js", icon: "express" },
+    { name: "PostgreSQL", icon: "postgresql" },
+    { name: "Socket.io", icon: "socketio" },
+    { name: "WordPress", icon: "wordpress" },
+    { name: "GitHub", icon: "github" },
+    { name: "Vercel", icon: "vercel" },
+    { name: "Firebase", icon: "firebase" },
+    { name: "SEO", icon: "seo" }
   ],
   contact: {
     email: "rabadiyavraj0@gmail.com",
