@@ -1569,7 +1569,15 @@ body.cursor-hover .custom-cursor-outline {
     margin: 0 auto 30px;
     font-size: 1.1rem;
   }
-  .hero-actions { justify-content: center; }
+  .hero-actions {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-actions .btn {
+    width: 55%;
+    justify-content: center;
+  }
   .hero-visual-wrapper { justify-content: center; }
   .hero-visual-card {
     transform: none;
@@ -1581,7 +1589,7 @@ body.cursor-hover .custom-cursor-outline {
   /* About */
   .about-grid {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 68px;
   }
   .about-visual-side { align-items: center; }
   .model-3d-wrap { width: 280px; height: 320px; }
@@ -1649,8 +1657,7 @@ body.cursor-hover .custom-cursor-outline {
   /* Hero */
   .hero-title { font-size: 2.2rem; line-height: 1.15; }
   .hero-tagline { font-size: 1rem; }
-  .hero-actions { flex-direction: column; width: 100%; gap: 12px; }
-  .hero-actions .btn { width: 100%; justify-content: center; }
+  .hero-actions { gap: 12px; }
   .hero-visual-card { max-width: 260px; }
 
   /* About 3D scene */
