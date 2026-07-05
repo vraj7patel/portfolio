@@ -1,4 +1,6 @@
-import heroVisual from './assets/hero_visual.png';
+// import heroVisual from './assets/Gemini_Generated_Image_ma7ct3ma7ct3ma7c (1).png';
+import heroVisual from './assets/vraj.png';
+
 import projectLiya from './assets/project_liya.png';
 import projectVyaparii from './assets/project_vyaparii.png';
 
@@ -56,8 +58,8 @@ export const portfolioData = {
       description: "Created a full-featured inventory management tool including customer, supplier, invoice, and staff CRUD operations. Integrated modern APIs (Amazon Q, Blackbox, Kiro, Antigravity, Perplexity) and designed an analysis page to track business growth.",
       image: projectVyaparii,
       techStack: ["JavaScript", "MongoDB", "Node.js", "Express.js", "AI APIs"],
-      liveLink: "#",
-      codeLink: "#"
+      liveLink: "https://vyapari-omega.vercel.app/",
+      codeLink: "https://github.com/vnsinfo-tech/vyapari.git"
     }
   ],
   skills: [

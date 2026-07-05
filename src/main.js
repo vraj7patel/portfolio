@@ -556,31 +556,18 @@ function initScrollAnimations() {
 
   window.addEventListener('scroll', () => {
     let current = '';
-    
     sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-      if (window.scrollY >= (sectionTop - 150)) {
+      if (window.scrollY >= (section.offsetTop - 150)) {
         current = section.getAttribute('id');
       }
     });
-
-    // Update Desktop Nav links
     navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('active');
-      }
+      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
     });
-
-    // Update Mobile Nav links
     mobLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('active');
-      }
+      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
     });
-  });
+  }, { passive: true });
 }
 
 /* ==========================================
@@ -607,9 +594,24 @@ function initInteractivity() {
   const contactForm = document.getElementById('contactForm');
   const formSubmitBtn = document.getElementById('formSubmitBtn');
   const formFeedback = document.getElementById('formFeedback');
+  const formNameInput = document.getElementById('formName');
+  const formEmailInput = document.getElementById('formEmail');
+
+  // Pre-fill form fields from local storage cache if available
+  if (formNameInput && formEmailInput) {
+    const cachedName = localStorage.getItem('visitorName');
+    const cachedEmail = localStorage.getItem('visitorEmail');
+    if (cachedName) formNameInput.value = cachedName;
+    if (cachedEmail) formEmailInput.value = cachedEmail;
+  }
 
   contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
+    
+    const visitorName = formNameInput ? formNameInput.value.trim() : '';
+    const visitorEmail = formEmailInput ? formEmailInput.value.trim() : '';
+    if (visitorName) localStorage.setItem('visitorName', visitorName);
+    if (visitorEmail) localStorage.setItem('visitorEmail', visitorEmail);
     
     const originalBtnText = formSubmitBtn.innerHTML;
     formSubmitBtn.disabled = true;
@@ -624,6 +626,10 @@ function initInteractivity() {
       formSubmitBtn.disabled = false;
       formSubmitBtn.innerHTML = originalBtnText;
       contactForm.reset();
+      
+      // Prefill fields back after reset for convenient subsequent form submissions
+      if (formNameInput && visitorName) formNameInput.value = visitorName;
+      if (formEmailInput && visitorEmail) formEmailInput.value = visitorEmail;
       
       showToast('success', '✅ Message Sent!', 'Thanks for reaching out. Vraj will respond shortly.');
       
@@ -662,6 +668,12 @@ function initInteractivity() {
 /* ==========================================
  * 7. INTERACTIVE TERMINAL LOGIC
  * ========================================== */
+function sanitize(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 function initTerminal() {
   const terminalInput = document.getElementById('terminalInput');
   const terminalOutput = document.getElementById('terminalOutput');
@@ -672,17 +684,18 @@ function initTerminal() {
 
   terminalInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
-      const command = this.value.trim().toLowerCase();
+      const raw = this.value.trim();
+      const command = raw.toLowerCase();
       this.value = '';
-      
+
       const promptLine = document.createElement('div');
       promptLine.className = 'terminal-line';
-      promptLine.innerHTML = `<span class="prompt">vraj@portfolio:~$</span> ${command}`;
+      promptLine.innerHTML = `<span class="prompt">vraj@portfolio:~$</span> ${sanitize(raw)}`;
       terminalOutput.appendChild(promptLine);
-      
+
       const responseLine = document.createElement('div');
       responseLine.className = 'terminal-line';
-      
+
       switch (command) {
         case 'help':
           responseLine.innerHTML = `
@@ -696,25 +709,27 @@ function initTerminal() {
           break;
         case 'about':
           responseLine.innerHTML = `
-            Vraj Rabadiya - Frontend Developer & BCA Student at Sutex Bank College, Surat.<br>
-            Tagline: ${data.personal.tagline}<br>
-            Location: ${data.contact.location}
+            Vraj Rabadiya - Frontend Developer &amp; BCA Student at Sutex Bank College, Surat.<br>
+            Tagline: ${sanitize(data.personal.tagline)}<br>
+            Location: ${sanitize(data.contact.location)}
           `;
           break;
         case 'skills':
           responseLine.innerHTML = `
             Key Tech Stack:<br>
-            - ${data.skills.map(s => s.name).join(', ')}
+            - ${data.skills.map(s => sanitize(s.name)).join(', ')}
           `;
           break;
         case 'projects':
-          responseLine.innerHTML = data.projects.map(p => `- <strong>${p.title}</strong>: ${p.category}`).join('<br>');
+          responseLine.innerHTML = data.projects.map(p =>
+            `- <strong>${sanitize(p.title)}</strong>: ${sanitize(p.category)}`
+          ).join('<br>');
           break;
         case 'contact':
           responseLine.innerHTML = `
-            Email: <a href="mailto:${data.contact.email}">${data.contact.email}</a><br>
-            GitHub: <a href="${data.contact.github}" target="_blank">${data.contact.github}</a><br>
-            LinkedIn: <a href="${data.contact.linkedin}" target="_blank">${data.contact.linkedin}</a>
+            Email: <a href="mailto:${sanitize(data.contact.email)}">${sanitize(data.contact.email)}</a><br>
+            GitHub: <a href="${sanitize(data.contact.github)}" target="_blank" rel="noopener">${sanitize(data.contact.github)}</a><br>
+            LinkedIn: <a href="${sanitize(data.contact.linkedin)}" target="_blank" rel="noopener">${sanitize(data.contact.linkedin)}</a>
           `;
           break;
         case 'clear':
@@ -723,89 +738,170 @@ function initTerminal() {
           showToast('info', '🗑️ Cleared', 'Terminal history flushed.');
           break;
         default:
-          responseLine.innerHTML = `Command not found: "${command}". Type <span class="cmd-highlight">help</span> to view lists.`;
-          showToast('warning', '⚠️ Unknown Command', `"${command}" is not recognized.`);
+          responseLine.innerHTML = `Command not found: "${sanitize(raw)}". Type <span class="cmd-highlight">help</span> to view lists.`;
+          showToast('warning', '⚠️ Unknown Command', `"${sanitize(raw)}" is not recognized.`);
       }
-      
+
       if (command !== 'clear') {
         terminalOutput.appendChild(responseLine);
       }
-      
+
       terminalBody.scrollTop = terminalBody.scrollHeight;
     }
   });
 
-  terminalBody.addEventListener('click', () => {
-    terminalInput.focus();
-  });
+  terminalBody.addEventListener('click', () => terminalInput.focus());
 }
 
 /* ==========================================
  * 8. TOAST NOTIFICATION SYSTEM
  * ========================================== */
-let _activeToast = null;
-let _toastQueue = [];
-let _toastScrollHandler = null;
+let _activeToasts = [];
+const MAX_TOASTS = 4;
 
-function _dismissToast(toast) {
-  if (!toast || toast.classList.contains('toast-exit')) return;
-  toast.classList.add('toast-exit');
-  if (_toastScrollHandler) {
-    window.removeEventListener('scroll', _toastScrollHandler, { passive: true });
-    _toastScrollHandler = null;
-  }
+const TOAST_ICONS = {
+  success: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+    <polyline points="22 4 12 14.01 9 11.01" />
+  </svg>`,
+  info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="16" x2="12" y2="12" />
+    <line x1="12" y1="8" x2="12.01" y2="8" />
+  </svg>`,
+  warning: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+    <line x1="12" y1="9" x2="12" y2="13" />
+    <line x1="12" y1="17" x2="12.01" y2="17" />
+  </svg>`,
+  purple: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </svg>`
+};
+
+const CLOSE_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+</svg>`;
+
+function _dismissToast(toastEl) {
+  if (!toastEl || toastEl.classList.contains('toast-hide') || toastEl.classList.contains('toast-collapsing')) return;
+
+  // 1. Remove from active tracking array
+  _activeToasts = _activeToasts.filter(t => t.el !== toastEl);
+
+  // 2. Play slide-out transition
+  toastEl.classList.remove('toast-show');
+  toastEl.classList.add('toast-hide');
+
+  // 3. Smooth height/spacing collapse transition
+  const height = toastEl.getBoundingClientRect().height;
+  toastEl.style.maxHeight = `${height}px`;
+
+  // Force reflow and add collapsing style next frame
+  requestAnimationFrame(() => {
+    toastEl.classList.add('toast-collapsing');
+  });
+
+  // 4. Remove from DOM after transition completes
   setTimeout(() => {
-    toast.remove();
-    _activeToast = null;
-    if (_toastQueue.length > 0) {
-      const next = _toastQueue.shift();
-      _renderToast(next.type, next.title, next.message, next.duration);
-    }
-  }, 300);
+    toastEl.remove();
+  }, 400);
 }
 
 function _renderToast(type, title, message, duration) {
   const container = document.getElementById('toastContainer');
   if (!container) return;
 
-  const icons = { success: '✓', info: 'ℹ', warning: '!', purple: '★' };
-
   const toast = document.createElement('div');
-  toast.className = 'toast';
+  toast.className = `toast ${type}`;
+
+  const iconSVG = TOAST_ICONS[type] || TOAST_ICONS.info;
+
   toast.innerHTML = `
-    <div class="toast-icon ${type}">${icons[type] || 'ℹ'}</div>
+    <div class="toast-icon ${type}">${iconSVG}</div>
     <div class="toast-body">
       <div class="toast-title">${title}</div>
       <div class="toast-message">${message}</div>
     </div>
-    <div class="toast-progress" style="animation-duration: ${duration}ms;"></div>
+    <button class="toast-close" aria-label="Close notification">${CLOSE_ICON}</button>
+    <div class="toast-progress">
+      <div class="toast-bar ${type}"></div>
+    </div>
   `;
 
   container.appendChild(toast);
-  _activeToast = toast;
+  
+  // Force layout reflow before showing transition
+  toast.offsetHeight;
+  toast.classList.add('toast-show');
 
-  // Dismiss on scroll
-  _toastScrollHandler = () => _dismissToast(toast);
-  window.addEventListener('scroll', _toastScrollHandler, { passive: true, once: true });
+  const progressBar = toast.querySelector('.toast-bar');
+  const closeBtn = toast.querySelector('.toast-close');
 
-  // Auto-dismiss after duration
-  const timer = setTimeout(() => _dismissToast(toast), duration);
+  let remainingTime = duration;
+  let lastTimestamp = null;
+  let animationFrameId = null;
+  let isPaused = false;
 
-  // Click to dismiss
-  toast.addEventListener('click', () => {
-    clearTimeout(timer);
+  const dismiss = () => {
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
     _dismissToast(toast);
+  };
+
+  // Dynamic Progress bar update frame loop
+  const tick = (timestamp) => {
+    if (!lastTimestamp) lastTimestamp = timestamp;
+
+    if (!isPaused) {
+      const elapsed = timestamp - lastTimestamp;
+      remainingTime -= elapsed;
+
+      const progress = Math.max(0, remainingTime / duration);
+      progressBar.style.transform = `scaleX(${progress})`;
+
+      if (remainingTime <= 0) {
+        dismiss();
+        return;
+      }
+    }
+
+    lastTimestamp = timestamp;
+    animationFrameId = requestAnimationFrame(tick);
+  };
+
+  // Start animation loop
+  animationFrameId = requestAnimationFrame(tick);
+
+  // Hover to pause auto-dismiss
+  toast.addEventListener('mouseenter', () => {
+    isPaused = true;
   });
+
+  toast.addEventListener('mouseleave', () => {
+    isPaused = false;
+    lastTimestamp = performance.now(); // reset timer timestamp reference
+  });
+
+  // Manual close trigger
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dismiss();
+  });
+
+  // Push new toast object reference
+  const toastObj = { el: toast, dismiss };
+  _activeToasts.push(toastObj);
+
+  // Enforce FIFO count constraint
+  if (_activeToasts.length > MAX_TOASTS) {
+    const oldest = _activeToasts[0];
+    oldest.dismiss();
+  }
 }
 
 function showToast(type, title, message, duration = 2500) {
-  if (_activeToast) {
-    // Dismiss current immediately, queue next
-    _dismissToast(_activeToast);
-    _toastQueue.push({ type, title, message, duration });
-  } else {
-    _renderToast(type, title, message, duration);
-  }
+  _renderToast(type, title, message, duration);
 }
 
 /* ==========================================
@@ -815,6 +911,15 @@ function initWelcomeModal() {
   const modal = document.getElementById('welcomeModal');
   const enterBtn = document.getElementById('modalEnterBtn');
   if (!modal) return;
+
+  // Personalization Check
+  const visitorName = localStorage.getItem('visitorName');
+  if (visitorName) {
+    const badge = modal.querySelector('.modal-badge');
+    if (badge) {
+      badge.textContent = `👋 Welcome Back, ${visitorName}`;
+    }
+  }
 
   // Animate stat counters
   const statNumbers = modal.querySelectorAll('.stat-number');
@@ -837,7 +942,11 @@ function initWelcomeModal() {
     document.body.style.overflow = '';
     
     setTimeout(() => {
-      showToast('purple', '🚀 Welcome!', 'Explore the portfolio. Try the interactive terminal!');
+      if (visitorName) {
+        showToast('purple', `🚀 Welcome back, ${visitorName}!`, 'Explore the portfolio. Try the interactive terminal!');
+      } else {
+        showToast('purple', '🚀 Welcome!', 'Explore the portfolio. Try the interactive terminal!');
+      }
     }, 600);
   }
 
@@ -916,12 +1025,8 @@ function initScrollTopBtn() {
   if (!btn) return;
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) {
-      btn.classList.add('visible');
-    } else {
-      btn.classList.remove('visible');
-    }
-  });
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
 
   btn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
