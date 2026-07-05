@@ -743,16 +743,32 @@ function initTerminal() {
 /* ==========================================
  * 8. TOAST NOTIFICATION SYSTEM
  * ========================================== */
-function showToast(type, title, message, duration = 4000) {
+let _activeToast = null;
+let _toastQueue = [];
+let _toastScrollHandler = null;
+
+function _dismissToast(toast) {
+  if (!toast || toast.classList.contains('toast-exit')) return;
+  toast.classList.add('toast-exit');
+  if (_toastScrollHandler) {
+    window.removeEventListener('scroll', _toastScrollHandler, { passive: true });
+    _toastScrollHandler = null;
+  }
+  setTimeout(() => {
+    toast.remove();
+    _activeToast = null;
+    if (_toastQueue.length > 0) {
+      const next = _toastQueue.shift();
+      _renderToast(next.type, next.title, next.message, next.duration);
+    }
+  }, 300);
+}
+
+function _renderToast(type, title, message, duration) {
   const container = document.getElementById('toastContainer');
   if (!container) return;
 
-  const icons = {
-    success: '✓',
-    info: 'ℹ',
-    warning: '!',
-    purple: '★'
-  };
+  const icons = { success: '✓', info: 'ℹ', warning: '!', purple: '★' };
 
   const toast = document.createElement('div');
   toast.className = 'toast';
@@ -766,18 +782,30 @@ function showToast(type, title, message, duration = 4000) {
   `;
 
   container.appendChild(toast);
+  _activeToast = toast;
 
-  // Auto-remove after duration
-  setTimeout(() => {
-    toast.classList.add('toast-exit');
-    setTimeout(() => toast.remove(), 400);
-  }, duration);
+  // Dismiss on scroll
+  _toastScrollHandler = () => _dismissToast(toast);
+  window.addEventListener('scroll', _toastScrollHandler, { passive: true, once: true });
+
+  // Auto-dismiss after duration
+  const timer = setTimeout(() => _dismissToast(toast), duration);
 
   // Click to dismiss
   toast.addEventListener('click', () => {
-    toast.classList.add('toast-exit');
-    setTimeout(() => toast.remove(), 400);
+    clearTimeout(timer);
+    _dismissToast(toast);
   });
+}
+
+function showToast(type, title, message, duration = 2500) {
+  if (_activeToast) {
+    // Dismiss current immediately, queue next
+    _dismissToast(_activeToast);
+    _toastQueue.push({ type, title, message, duration });
+  } else {
+    _renderToast(type, title, message, duration);
+  }
 }
 
 /* ==========================================
